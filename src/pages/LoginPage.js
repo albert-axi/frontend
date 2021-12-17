@@ -1,34 +1,26 @@
 import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import loginUser from "../actions/loginUser"
+import { useEffect } from "react"
 
 const LoginPage = () => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
 
     const handleSubmit = e => {
         e.preventDefault()
 
-        fetch('http://localhost:3000/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify({
-                user: {
-                    email: e.target.email.value,
-                    password: e.target.password.value
-                }
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-                localStorage.setItem('user', JSON.stringify(res.user))
-                localStorage.setItem('jwt', res.jwt)
+        const user = {
+            email: e.target.email.value,
+            password: e.target.password.value
+        }
 
-                navigate('/posts')
-            })
+        dispatch(loginUser(user))
     }
+
+    useEffect(()=> user ? navigate('/posts') : alert("Please Login"), [user])
 
     return (
         <>

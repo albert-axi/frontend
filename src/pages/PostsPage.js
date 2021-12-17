@@ -1,27 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import {v4 as uuidv4} from 'uuid'
+import fetchPosts from '../actions/fetchPosts'
+import PostShow from '../components/PostShow'
 
 const PostsPage = () => {
 
-    const [posts, setPosts] = useState([])
+    const posts = useSelector(state => state.posts)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetch('http://localhost:3000/posts', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            }
-        })
-            .then(res => res.json())
-            .then(posts => {
-                setPosts(posts)
-            })
-
+        dispatch(fetchPosts())
     }, [])
 
-    const renderPosts = () => posts.map(post => (<li key={uuidv4()}>{post.title}</li>))
+    const renderPosts = () => posts.map(post => (
+        <Link to={`/posts/${post.id}`}>
+            <li key={uuidv4()}>{post.title}</li>
+        </Link>
+    ))
 
     return (
         <>
