@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Outlet, Route, Routes } from 'react-router-dom'
+// import { Outlet, Route, Routes } from 'react-router-dom'
 import {v4 as uuidv4} from 'uuid'
 import fetchPosts from '../actions/fetchPosts'
-import PostShow from '../components/PostShow'
+// import PostShow from '../components/PostShow'
 
 const PostsPage = () => {
 
@@ -27,6 +27,10 @@ const PostsPage = () => {
             <ul>
                 {renderPosts()}
             </ul>
+            {/* <Routes>
+                <Route path=":postId" element={<PostShow />}/>
+            </Routes> */}
+            {/* <Outlet /> */}
         </>
     )
 }

@@ -1,9 +1,9 @@
-export default function loginUser({ email, password }) {
+export default function signupUser({email, password, password_confirmation, name}) {
     return (dispatch) => {
-        dispatch({ type: 'LOGIN_REQUEST' });
+        dispatch({ type: 'SIGNUP_REQUEST' });
 
 
-        fetch('http://localhost:3000/login', {
+        fetch('http://localhost:3000/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -12,18 +12,19 @@ export default function loginUser({ email, password }) {
             body: JSON.stringify({
                 user: {
                     email,
-                    password
+                    password,
+                    password_confirmation,
+                    name
                 }
             })
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
-                if (!res?.errors) {
+                if(!res?.errors) {
                     localStorage.setItem('jwt', res.jwt)
-                    dispatch({ type: 'LOGIN_USER', user: res.user })
+                    dispatch({ type: 'SIGNUP_USER', user: res.user })
                 } else {
-                    dispatch({ type: 'LOGIN_USER', user: { ...res.user, errors: res.errors } })
+                    dispatch({ type: 'SIGNUP_USER', user: {...res.user,errors: res.errors}})
                 }
             })
     };

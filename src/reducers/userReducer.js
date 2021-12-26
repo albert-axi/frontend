@@ -1,9 +1,13 @@
 export default function userReducer(user = null, action) {
-    switch(action.type) {
+    switch (action.type) {
         case 'LOGIN_REQUEST':
             return user
+        case 'SIGNUP_REQUEST':
+            return user
         case 'LOGIN_USER':
-            return {...action.user}
+            return { ...action.user }
+        case 'SIGNUP_USER':
+            return { ...action.user }
         case 'LOGOUT_USER':
             localStorage.removeItem('jwt')
             return null
